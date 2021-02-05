@@ -29,10 +29,6 @@ let persons = [
 	},
 ];
 
-app.get('/', (req, res) => {
-	res.send('<div>Hello World</div>');
-});
-
 app.get('/api/persons', (req, res) => {
 	res.json(persons);
 });
@@ -43,6 +39,15 @@ app.get('/info', (req, res) => {
         <p>Phonebook has info for ${persons.length} people.</p>
         <p>${new Date()}</p>
     </div>`);
+});
+
+app.get('/api/persons/:id', (req, res) => {
+	const id = req.params.id;
+
+	const person = persons.find((person) => {
+		return person.id === +id;
+	});
+	res.json(person);
 });
 
 const PORT = 3001;

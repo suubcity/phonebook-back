@@ -50,6 +50,16 @@ app.get('/api/persons/:id', (req, res) => {
 	res.json(person);
 });
 
+app.delete('/api/persons/:id', (req, res) => {
+	const id = req.params.id;
+
+	persons = persons.filter((person) => {
+		return person.id !== +id;
+	});
+	console.log(persons);
+	res.status(204).end();
+});
+
 const PORT = 3001;
 
 app.listen(PORT, () => {

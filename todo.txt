@@ -1,0 +1,7 @@
+create an app.js
+create an index.js
+create a port for it to run on 3001
+
+
+create a server
+install express

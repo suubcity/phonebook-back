@@ -9,3 +9,20 @@ Content-Type: application/json
     "name": "Martyn Testy",
     "number": "01765 823 832"
 }
+
+
+### Post with missing name.
+POST http://localhost:3001/api/persons/ 
+Content-Type: application/json
+
+{
+    "number": "01765 823 832"
+}
+
+### Post with missing number.
+POST http://localhost:3001/api/persons/ 
+Content-Type: application/json
+
+{
+    "name": "Martyn Testy"    
+}

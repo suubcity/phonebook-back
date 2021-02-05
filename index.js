@@ -31,6 +31,12 @@ let persons = [
 	},
 ];
 
+const nameAlreadyExists = (name) => {
+	return persons.find((person) => {
+		return person.name === name;
+	});
+};
+
 app.get('/api/persons', (req, res) => {
 	res.json(persons);
 });
@@ -64,9 +70,18 @@ app.delete('/api/persons/:id', (req, res) => {
 
 app.post('/api/persons/', (req, res) => {
 	const newPerson = req.body;
-	newPerson.id = Math.floor(Math.random() * (999 - 0 + 1)) + 0;
-	persons.push(newPerson);
-	res.json(persons);
+
+	if (newPerson.name === undefined || newPerson.number === undefined) {
+		res.status(400);
+		res.json({ error: 'name or number missing' });
+	} else if (nameAlreadyExists(newPerson.name)) {
+		res.status(400);
+		res.json({ error: 'Person already Exists.' });
+	} else {
+		newPerson.id = Math.floor(Math.random() * (999 - 0 + 1)) + 0;
+		persons.push(newPerson);
+		res.json(persons);
+	}
 });
 
 const PORT = 3001;

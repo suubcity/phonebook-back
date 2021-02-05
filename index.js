@@ -1,7 +1,10 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const cors = require('cors');
 
+app.use(express.static('build'));
+app.use(cors());
 app.use(express.json());
 
 morgan.token('showData', (req, res) => {
@@ -87,7 +90,7 @@ app.post('/api/persons/', (req, res) => {
 	} else {
 		newPerson.id = Math.floor(Math.random() * (999 - 0 + 1)) + 0;
 		persons.push(newPerson);
-		res.json(persons);
+		res.json(newPerson);
 	}
 });
 

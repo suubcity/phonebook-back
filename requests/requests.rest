@@ -1,4 +1,11 @@
 ### Delete one person.
 DELETE http://localhost:3001/api/persons/4
 
-###
+### Post a new person.
+POST http://localhost:3001/api/persons/ 
+Content-Type: application/json
+
+{
+    "name": "Martyn Testy",
+    "number": "01765 823 832"
+}

@@ -1,0 +1,2 @@
+take from the process.argv my password
+add it into the url

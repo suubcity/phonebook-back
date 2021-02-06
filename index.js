@@ -83,7 +83,7 @@ app.delete('/api/persons/:id', (req, res) => {
 });
 
 app.post('/api/persons/', (req, res) => {
-	const newPerson = req.body;
+	let newPerson = req.body;
 
 	if (newPerson.name === undefined || newPerson.number === undefined) {
 		res.status(400);
@@ -92,9 +92,11 @@ app.post('/api/persons/', (req, res) => {
 		res.status(400);
 		res.json({ error: 'Person already Exists.' });
 	} else {
-		newPerson.id = Math.floor(Math.random() * (999 - 0 + 1)) + 0;
-		persons.push(newPerson);
-		res.json(newPerson);
+		newPerson = new Person(newPerson);
+
+		newPerson.save(newPerson).then((newPerson) => {
+			res.json(newPerson);
+		});
 	}
 });
 

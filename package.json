@@ -15,7 +15,7 @@
 		"start": "node index.js",
 		"dev": "nodemon index.js",
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"build:ui": "rm -rf build && cd /home/martyn/Documents/projects/phonebook-front && npm run build --prod && cp -r build /home/martyn/Documents/projects/phonebook-back"
+		"build": "rm -rf build && cd /home/martyn/Documents/projects/phonebook-front && npm run build --prod && cp -r build /home/martyn/Documents/projects/phonebook-back && cd /home/martyn/Documents/projects/phonebook-back && git add . && git commit -m 'heroku deploy' && git push origin main"
 	},
 	"author": "",
 	"license": "ISC"

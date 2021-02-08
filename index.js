@@ -64,22 +64,13 @@ app.get('/info', (req, res) => {
 });
 
 app.get('/api/persons/:id', (req, res) => {
-	const id = req.params.id;
-
-	const person = persons.find((person) => {
-		return person.id === +id;
+	Person.findById(req.params.id).then((result) => {
+		res.json(result);
 	});
-	res.json(person);
 });
 
-app.delete('/api/persons/:id', (req, res) => {
-	const id = req.params.id;
-
-	persons = persons.filter((person) => {
-		return person.id !== +id;
-	});
-	console.log(persons);
-	res.status(204).end();
+app.delete('/api/persons/:id', (req, res, next) => {
+	Person.findByIdAndRemove(req.params.id).then(() => res.status(204).end());
 });
 
 app.post('/api/persons/', (req, res) => {

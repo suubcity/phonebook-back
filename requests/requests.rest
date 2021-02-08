@@ -26,3 +26,6 @@ Content-Type: application/json
 {
     "name": "Martyn Testy"    
 }
+
+### Get one entry
+GET http://localhost:3001/api/persons/60202a2920d345084b1922f8

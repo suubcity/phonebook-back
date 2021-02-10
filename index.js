@@ -15,12 +15,6 @@ morgan.token('showData', (req, res) => {
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :showData'));
 
-const nameAlreadyExists = (name) => {
-	return persons.find((person) => {
-		return person.name === name;
-	});
-};
-
 app.get('/api/persons', (req, res, next) => {
 	Person.find({})
 		.then((result) => {
@@ -59,19 +53,16 @@ app.delete('/api/persons/:id', (req, res, next) => {
 });
 
 app.post('/api/persons/', (req, res, next) => {
-	let newPerson = req.body;
+	let personToAdd = req.body;
 
-	if (newPerson.name === undefined || newPerson.number === undefined) {
+	if (personToAdd.name === undefined || personToAdd.number === undefined) {
 		res.status(400);
 		res.json({ error: 'name or number missing' });
-	} else if (nameAlreadyExists(newPerson.name)) {
-		res.status(400);
-		res.json({ error: 'Person already Exists.' });
 	} else {
-		newPerson = new Person(newPerson);
+		personToAdd = new Person(personToAdd);
 
-		newPerson
-			.save(newPerson)
+		personToAdd
+			.save(personToAdd)
 			.then((newPerson) => {
 				res.json(newPerson);
 			})
@@ -94,7 +85,10 @@ app.put('/api/persons/:id', (req, res, next) => {
 const errorHandler = (error, req, res, next) => {
 	console.error(error.message);
 	if (error.name === 'CastError') {
-		return response.status(400).send({ error: 'malformatted id' });
+		return res.status(400).send({ error: 'malformatted id' });
+	}
+	if (error.name === 'ValidationError') {
+		return res.status(409).send({ error: 'name needs to be unique' });
 	}
 
 	next(error);

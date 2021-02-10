@@ -41,6 +41,17 @@ app.get('/api/persons/:id', (req, res, next) => {
 		});
 });
 
+app.get('/info/', (req, res, next) => {
+	Person.count({}, (error, result) => {
+		if (error) {
+			next(error);
+		} else {
+			res.send(`<div>The phonebook has ${result} entries.</div>
+			<div>${new Date()}</div>`);
+		}
+	});
+});
+
 app.delete('/api/persons/:id', (req, res, next) => {
 	Person.findByIdAndRemove(req.params.id)
 		.then(() => res.status(204).end())

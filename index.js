@@ -71,11 +71,15 @@ app.post('/api/persons/', (req, res, next) => {
 });
 
 app.put('/api/persons/:id', (req, res, next) => {
-	const personToUpdate = req.body;
+	const newNumber = req.body.number;
 	const id = req.params.id;
-	Person.findByIdAndUpdate(id, personToUpdate, { new: true })
-		.then((updatePerson) => {
-			return res.json(updatePerson);
+
+	const filter = { _id: id };
+	const update = { number: newNumber };
+
+	Person.findOneAndUpdate(filter, update, { new: true, runValidators: true })
+		.then((updatedPerson) => {
+			return res.json(updatedPerson);
 		})
 		.catch((error) => {
 			next(error);
@@ -88,7 +92,7 @@ const errorHandler = (error, req, res, next) => {
 		return res.status(400).send({ error: 'malformatted id' });
 	}
 	if (error.name === 'ValidationError') {
-		return res.status(409).send({ error: 'name needs to be unique' });
+		return res.status(409).send(error);
 	}
 
 	next(error);
